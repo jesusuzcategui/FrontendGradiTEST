@@ -9,6 +9,9 @@ import styled from "styled-components";
 //Importando contenedor
 import ContainerApp from "../components/Container";
 import GridInit from "../components/GridInit";
+import ProductCant from "../components/ProductCant";
+import ColorPicker from "../components/ColorsPickers";
+import SizesPicker from "../components/SizesPickers";
 
 const TitleProduct = styled.h1`
     font-size: 3rem;
@@ -30,6 +33,25 @@ const DescriptionProduct = styled.div`
     font-family: 'Raleway', sans-serif;
 `;
 
+const PriceProduct = styled.div`
+    font-family: 'Raleway', sans-serif;
+    display: flex;
+    align-items: center;
+
+    & h4 {
+        font-size: 1.5rem;
+        color: #000;
+        margin-right: 0.5rem;
+        margin-top: 0;
+    }
+
+    & h5 {
+        font-size: 1rem;
+        color: #ccc;
+        margin-top: 0;
+    }
+`;
+
 //Creamos un componente funcional para la renderizacion de la pagina del producto.
 
 const ProductPage = () => {
@@ -37,6 +59,16 @@ const ProductPage = () => {
     const [product, setProduct] = useState(null);
     //Creamos un estado para en caso de error de api mostrar mensaje.
     const [error, setError] = useState(0);
+    //Creamos el estado para la cantidad del producto.
+    const [cant, setCant] = useState(1);
+    //Creamos el estado para tener los colores disponibles del producto.
+    const [colorsAviable, setColorsAviable] = useState([]);
+    const [sizesAviables, setSizesAviable] = useState([]);
+
+    const CurrencyFormater = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    });
 
     const fecthData = async () => {
         try {
@@ -47,10 +79,41 @@ const ProductPage = () => {
         }
     };
 
+    const upCant = () => {
+        let canti = cant+1;
+        setCant(canti);
+    };
+
+    const delCant = () => {
+        let canti = cant-1;
+        setCant(canti);
+    };
+
     //Establecemos el useffect para la deteccion del cambio del product.
     useEffect(() => {
         fecthData();
-    }, [product]);
+    }, []);
+
+    useEffect(() => {
+        if(product){
+            //Filtraremos la opciones del producto para sacar las tallas y los colores
+            const aviC = product.options.filter((itemOpt) => {
+                return itemOpt.name === "Color";
+            });
+
+            const aviS = product.options.filter((itemOpt) => {
+                return itemOpt.name === "Size";
+            });
+
+            if(aviC && aviC.length > 0){
+                setColorsAviable(aviC[0].values);
+            }
+
+            if(aviS && aviS.length > 0){
+                setSizesAviable(aviS[0].values);
+            }
+        }
+    }, [product, colorsAviable, sizesAviables]);
 
     //Retornamos el JSX de la pagina del producto.
 
@@ -68,6 +131,13 @@ const ProductPage = () => {
                                 <TitleProduct>
                                     {product.title}
                                 </TitleProduct>
+                                <PriceProduct>
+                                    <h4>{CurrencyFormater.format(product.price)}</h4>
+                                    <h5>{CurrencyFormater.format(product.compare_at_price)}</h5>
+                                </PriceProduct>
+                                <ColorPicker avaibleColors={colorsAviable} />
+                                <SizesPicker aviableSizes={sizesAviables} />
+                                <ProductCant cant={cant} plusAction={upCant} reduceAction={delCant} price={product.price} />
                                 <DescriptionProduct  dangerouslySetInnerHTML={{ __html: product.description}} />
                             </div>
                         </GridInit>
