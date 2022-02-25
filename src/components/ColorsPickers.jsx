@@ -17,6 +17,8 @@ const ColorPickerOption = styled.button`
     position: relative;
     cursor: pointer;
     margin: 1rem 0;
+    z-index: 9;
+    display: block;
     
     &:not(:last-child){
         margin-right: 1rem;
@@ -28,27 +30,36 @@ const ColorPickerOption = styled.button`
         height: 25px;
         position: absolute;
         top: -7px;
-        left: -6px;
+        left: -6.4px;
         background: transparent;
         border: solid 4px #000;
         border-radius: 50%;
         opacity: 0;
         transition: all ease .5s;
+        z-index: 1;
     }
 
     &:hover:before {
         opacity: 1;
     }
+
+    &.selected:before {
+        opacity: 1;
+    }
 `;
 
-const ColorPicker = ({ avaibleColors, selectedColor }) => {
-    useEffect( () => {}, [avaibleColors] );
+const ColorPicker = ({ avaibleColors, selectedColor, action }) => {
+
+    useEffect( () => {}, [avaibleColors, selectedColor] );
+
     let renderItems = avaibleColors.map((it, i) => {
         return (
-            <ColorPickerOption key={i} color={it} />
+            <ColorPickerOption className={ ( selectedColor == it ) ? 'selected' : '' } onClick={() => (action(it))} key={i} color={it} />
         );
     });
-    console.log(typeof avaibleColors);
+
+    
+
     return (
         <>
             <ColorPickerGrid>

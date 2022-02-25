@@ -1,1 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Rowdies:wght@300&display=swap');
+
+
+.slick-slider {
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+}
+
+.slick-list {margin: 0 -.5rem;}
+
+.slick-slide>div {padding: 0 .5rem;}
+
+.sliderThumb {
+  margin-top: 1rem;
+}
+
+.sliderBig .slick-dots {
+  height: 60px;
+  display: none !important;
+}
+
+@media screen and (max-width: 1024px){
+  .sliderBig .slick-dots {
+    display: block !important;
+  }
+}

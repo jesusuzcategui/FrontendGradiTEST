@@ -19,6 +19,11 @@ const SizesPickerOption = styled.button`
     transition: all ease .5s;
     font-family: 'Raleway', sans-serif;
 
+    &.selected {
+        color: #000;
+        border-color: #000;
+    }
+
     &:hover {
         color: #000;
         border-color: #000;
@@ -29,13 +34,13 @@ const SizesPickerOption = styled.button`
     }
 `;
 
-const SizesPicker = ( { aviableSizes, selectedSize } ) => {
+const SizesPicker = ( { aviableSizes, selectedSize, action } ) => {
     
-    useEffect( () => {}, [aviableSizes]);
+    useEffect( () => {}, [aviableSizes, selectedSize]);
 
     let renderItems = aviableSizes.map((size, i) => {
         return (
-            <SizesPickerOption key={i}>
+            <SizesPickerOption className={ ( selectedSize == size ) ? 'selected' : '' } onClick={() => (action(size))} key={i}>
                 {size}
             </SizesPickerOption>
         );
