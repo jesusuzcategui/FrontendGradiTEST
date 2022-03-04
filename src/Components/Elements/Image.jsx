@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Image = styled.img`
+const Image = styled.div`
     width: ${ (props) => (props.isThumb) ? '30%' : '100%' };
     
     & img {

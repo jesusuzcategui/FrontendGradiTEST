@@ -4,12 +4,19 @@ import getProduct from "../service";
 import Loading from "./Elements/Loading";
 import Container from "./Blocks/Container";
 import Grid from "./Blocks/Grid";
+import Gallery from "./Blocks/Gallery";
+
 import GridItem from "./Elements/GridItem";
+import Text from "./Elements/Text";
+
 
 const Product = () => {
 
     const [currentProduct, setCurrentProduct] = useState(null);
     const [view, setCurrentView] = useState(0);
+    const [imageAviable, setAviableImage] = useState([]);
+
+
 
     const fetchData = async () => {
         try {
@@ -24,6 +31,12 @@ const Product = () => {
     useEffect( () => {
         fetchData();
     }, [] );
+    
+    useEffect( () => {
+        if(currentProduct){
+            setAviableImage(currentProduct.media);
+        }
+    }, [currentProduct] );
 
     return (
         <>
@@ -33,10 +46,10 @@ const Product = () => {
                     <div>
                         <Grid>
                             <GridItem>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Harum commodi magnam exercitationem deleniti obcaecati, possimus soluta vel accusantium quo quod itaque explicabo! Officia nemo fugit, maxime exercitationem quibusdam temporibus eaque?</p>
+                                <Gallery items={imageAviable} />
                             </GridItem>
                             <GridItem>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero voluptatibus eum corrupti. Ut, quisquam? Quos dolore facilis modi architecto ducimus excepturi iusto perferendis quam omnis ad, voluptas molestias repellendus nulla!
+                                <Text color="black" size={2}>{currentProduct.title}</Text>
                             </GridItem>
                         </Grid>
                         <pre>{JSON.stringify(currentProduct, '', 1)}</pre>

@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Image from '../Elements/Image';
 
 
-const Gallery = () => {
+const Gallery = ( { items } ) => {
     const [nav1, setNav1] = useState(null);
     const [nav2, setNav2] = useState(null);
     const slider1 = useRef(null);
