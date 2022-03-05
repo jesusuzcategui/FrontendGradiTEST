@@ -3,9 +3,9 @@ import Product from './Components/Product';
 
 const App = () => {
     return (
-        <>
+        <React.StrictMode>
             <Product />
-        </>
+        </React.StrictMode>
     );
 };
 

@@ -5,6 +5,8 @@ const Button = styled.button`
     color: ${(props) => props.primary ? '#000' : '#fff'};
     padding: 15px 30px;
     font-weight: 600;
+    border: none;
+    cursor: pointer;
 `;
 
 export default Button;
